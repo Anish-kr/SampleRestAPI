@@ -1,8 +1,11 @@
 package com.rest.webservices.restfulwebservices.Social_Media;
 
+
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,12 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 public class UserResource {
 
 	private UserDauService service;
-
+	
 	public UserResource(UserDauService service) {
 		this.service = service;
 	}
@@ -31,14 +35,18 @@ public class UserResource {
 	}
 	
 	@GetMapping("/users/{id}")
-	public Users retrieveuser(@PathVariable int id)
+	public EntityModel<Users> retrieveuser(@PathVariable int id)
 	{
 		Users user = service.findOne(id);
 		
 		if(user==null)
 			throw new UserNotFoundException("id:"+id);
 		
-		return user;
+		EntityModel<Users> entityModel= EntityModel.of(user);
+		WebMvcLinkBuilder link=linkTo(methodOn(this.getClass()).retrieveAll());
+		entityModel.add(link.withRel("all_users"));
+		
+		return entityModel;
 	}
 	
 	@PostMapping("/users")
