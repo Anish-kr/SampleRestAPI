@@ -42,6 +42,7 @@ public class UserResource {
 		if(user==null)
 			throw new UserNotFoundException("id:"+id);
 		
+		//adding link to specific method using HATEOAS
 		EntityModel<Users> entityModel= EntityModel.of(user);
 		WebMvcLinkBuilder link=linkTo(methodOn(this.getClass()).retrieveAll());
 		entityModel.add(link.withRel("all_users"));

@@ -4,11 +4,17 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
+@Entity
 public class Users {
 
+	@Id
+	@GeneratedValue
 	@Size(min=2,message="name should ve atleast 2 characters")
 	@JsonProperty("User_Age")
 	private Integer age;
