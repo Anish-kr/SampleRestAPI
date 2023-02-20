@@ -2,16 +2,21 @@ package com.rest.webservices.restfulwebservices.Social_Media;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 public class Users {
 
-	@Size(min=2)
+	@Size(min=2,message="name should ve atleast 2 characters")
+	@JsonProperty("User_Age")
 	private Integer age;
+	@JsonProperty("User_Name")
 	private String name;
 	
-	@Past
+	@Past(message="birthdate should be in past")
+	@JsonProperty("User_Birthdate")
 	private LocalDate BirthDate;
 	
 	public Users(Integer age, String name, LocalDate birthDate) {
